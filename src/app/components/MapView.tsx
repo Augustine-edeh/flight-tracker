@@ -1,9 +1,13 @@
 "use client";
 
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import "@/lib/fixLeafletIcon";
+import { aircraftIcon } from "@/lib/fixLeafletIcon";
 
 const MapView = () => {
+  const aircrafts = [
+    { lat: 34.0522, lng: -118.2437, label: "Flight A - LAX" },
+    { lat: 35.6895, lng: 139.6917, label: "Flight B - Tokyo" },
+  ];
   return (
     <div className="h-full w-full border-4 border-blue-500">
       <MapContainer
@@ -16,25 +20,16 @@ const MapView = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
-          {/* <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup> */}
 
-          <Popup>
-            ✈️ <strong>Flight Info</strong>
-            <br />
-            Airline: Demo Air
-            <br />
-            Flight: DA123
-            <br />
-            Altitude: 32,000 ft
-            <br />
-            Speed: 550 knots
-            <br />
-            Status: En Route
-          </Popup>
-        </Marker>
+        {aircrafts.map((plane, idx) => (
+          <Marker
+            key={idx}
+            position={[plane.lat, plane.lng]}
+            icon={aircraftIcon}
+          >
+            <Popup>{plane.label}</Popup>
+          </Marker>
+        ))}
       </MapContainer>
     </div>
   );
