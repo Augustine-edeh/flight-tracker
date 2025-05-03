@@ -1,6 +1,7 @@
 "use client";
 
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import "@/lib/fixLeafletIcon";
 
 const MapView = () => {
   return (
@@ -19,6 +20,7 @@ const MapView = () => {
           {/* <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup> */}
+
           <Popup>
             ✈️ <strong>Flight Info</strong>
             <br />
