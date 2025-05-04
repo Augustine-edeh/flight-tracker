@@ -7,10 +7,12 @@ import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand st
 import { useEffect, useState } from "react";
 import UserLocationMarker from "./UserLocationMarker";
 
+import LoadingUI from "./LoadingUI";
+
 const MapView = () => {
   const { aircraftData, isLoading, error, fetchAircraftData } =
     useAircraftStore();
-  // const [center, setCenter] = useState([54.526, 15.2551]); // Central Europe as default center
+
   const [center, setCenter] = useState([51.47, -0.4543]); // Heathrow Airport
   const defaultZoom = 4;
 
@@ -29,7 +31,7 @@ const MapView = () => {
   }, [aircraftData]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingUI />;
   }
 
   if (error) {
