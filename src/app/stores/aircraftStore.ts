@@ -6,18 +6,11 @@ const useAircraftStore = create((set) => ({
   aircraftData: [],
   isLoading: false,
   error: null,
-  fetchAircraftData: async (params) => {
+  fetchAircraftData: async () => {
     set({ isLoading: true, error: null }); // Set loading state
     try {
       const response = await axios.get(
         "https://opensky-network.org/api/states/all"
-        // {
-        //   params,
-        //   auth: {
-        //     username: "YOUR_USERNAME",
-        //     password: "YOUR_PASSWORD",
-        //   },
-        // }
       );
 
       // Map the data to a more usable format
