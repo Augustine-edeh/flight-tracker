@@ -21,7 +21,6 @@ const MapView = () => {
     useAircraftStore();
 
   const [center, setCenter] = useState([51.47, -0.4543]); // Heathrow Airport
-  const defaultZoom = 4;
 
   useEffect(() => {
     fetchAircraftData(); // Fetch aircraft data
@@ -62,7 +61,7 @@ const MapView = () => {
 
         <UserLocationMarker />
 
-        {/* {aircraftData.map(
+        {aircraftData.map(
           (plane, idx) =>
             plane.latitude &&
             plane.longitude && (
@@ -74,7 +73,7 @@ const MapView = () => {
                 <Popup>{plane.flight || `Aircraft: ${plane.icao24}`}</Popup>
               </Marker>
             )
-        )} */}
+        )}
 
         <ZoomControl position="bottomright" />
         <AttributionControl position="bottomleft" />
