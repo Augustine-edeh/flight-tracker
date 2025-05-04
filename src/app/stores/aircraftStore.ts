@@ -18,13 +18,13 @@ const useAircraftStore = create((set) => ({
         icao24: state[0],
         flight: state[1],
         country: state[2],
+        timestamp: state[3],
         longitude: state[5],
         latitude: state[6],
         altitude: state[7],
-        speed: state[9],
-        verticalSpeed: state[10],
         onGround: state[8],
-        timestamp: state[3], // Assuming the timestamp is at index 3
+        speed: state[9],
+        verticalSpeed: state[10], // NOTE: verticalSpeed is at index 11
       }));
 
       set({ aircraftData: mappedData }); // Store the mapped data
