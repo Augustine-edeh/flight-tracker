@@ -1,6 +1,12 @@
 "use client";
 
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  ZoomControl,
+} from "react-leaflet";
 import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Assuming you have a custom icon for the aircraft
 
 import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
@@ -45,6 +51,7 @@ const MapView = () => {
         zoom={5}
         scrollWheelZoom={true}
         style={{ height: "100%", width: "100%", zIndex: "40" }}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -66,6 +73,8 @@ const MapView = () => {
               </Marker>
             )
         )} */}
+
+        <ZoomControl position="bottomright" />
       </MapContainer>
     </div>
   );
