@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AttributionControl,
   MapContainer,
   Marker,
   Popup,
@@ -51,7 +52,8 @@ const MapView = () => {
         zoom={5}
         scrollWheelZoom={true}
         style={{ height: "100%", width: "100%", zIndex: "40" }}
-        zoomControl={true}
+        zoomControl={false}
+        attributionControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -75,6 +77,7 @@ const MapView = () => {
         )} */}
 
         <ZoomControl position="bottomright" />
+        <AttributionControl position="bottomleft" />
       </MapContainer>
     </div>
   );
