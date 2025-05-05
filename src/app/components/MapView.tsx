@@ -20,7 +20,7 @@ const MapView = () => {
   const { aircraftData, isLoading, error, fetchAircraftData } =
     useAircraftStore();
 
-  const [center, setCenter] = useState([51.47, -0.4543]); // Heathrow Airport
+  const [center, setCenter] = useState<[number, number]>([51.47, -0.4543]); // Heathrow Airport
 
   useEffect(() => {
     fetchAircraftData(); // Fetch aircraft data
@@ -47,7 +47,7 @@ const MapView = () => {
   return (
     <div className="h-full w-full border-4 border-blue-500">
       <MapContainer
-        center={center || [0, 0]}
+        center={center}
         zoom={5}
         scrollWheelZoom={true}
         style={{ height: "100%", width: "100%", zIndex: "40" }}
