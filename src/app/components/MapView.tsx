@@ -1,35 +1,82 @@
 "use client";
 
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { aircraftIcon } from "@/lib/fixLeafletIcon";
+import {
+  AttributionControl,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  ZoomControl,
+} from "react-leaflet";
+import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Assuming you have a custom icon for the aircraft
+
+import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
+import { useEffect, useState } from "react";
+import UserLocationMarker from "./UserLocationMarker";
+
+import LoadingUI from "./LoadingUI";
 
 const MapView = () => {
-  const aircrafts = [
-    { lat: 34.0522, lng: -118.2437, label: "Flight A - LAX" },
-    { lat: 35.6895, lng: 139.6917, label: "Flight B - Tokyo" },
-  ];
+  const { aircraftData, isLoading, error, fetchAircraftData } =
+    useAircraftStore();
+
+  const [center, setCenter] = useState<[number, number]>([51.47, -0.4543]); // Heathrow Airport
+
+  useEffect(() => {
+    fetchAircraftData(); // Fetch aircraft data
+  }, [fetchAircraftData]);
+
+  useEffect(() => {
+    if (aircraftData.length > 0) {
+      // Dynamically set the map center to the first aircraft's position
+      const { latitude, longitude } = aircraftData[0];
+      if (latitude && longitude) {
+        setCenter([latitude, longitude]);
+      }
+    }
+  }, [aircraftData]);
+
+  if (isLoading) {
+    return <LoadingUI />;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="h-full w-full border-4 border-blue-500">
       <MapContainer
-        center={[51.505, -0.09]}
-        zoom={13}
-        scrollWheelZoom={false}
+        center={center}
+        zoom={5}
+        scrollWheelZoom={true}
         style={{ height: "100%", width: "100%", zIndex: "40" }}
+        zoomControl={false}
+        attributionControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {aircrafts.map((plane, idx) => (
-          <Marker
-            key={idx}
-            position={[plane.lat, plane.lng]}
-            icon={aircraftIcon}
-          >
-            <Popup>{plane.label}</Popup>
-          </Marker>
-        ))}
+        <UserLocationMarker />
+
+        {aircraftData.map(
+          (plane, idx) =>
+            plane.latitude &&
+            plane.longitude && (
+              <Marker
+                key={idx}
+                position={[plane.latitude, plane.longitude]}
+                icon={aircraftIcon}
+              >
+                <Popup>{plane.flight || `Aircraft: ${plane.icao24}`}</Popup>
+              </Marker>
+            )
+        )}
+
+        <ZoomControl position="bottomright" />
+        <AttributionControl position="bottomleft" />
       </MapContainer>
     </div>
   );
