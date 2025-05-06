@@ -8,13 +8,13 @@ import {
   TileLayer,
   ZoomControl,
 } from "react-leaflet";
-import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Assuming you have a custom icon for the aircraft
-
-import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
+import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Custom aircraft icon
+import useAircraftStore from "../stores/aircraftStore"; // Zustand store
 import { useEffect, useState } from "react";
 import UserLocationMarker from "./UserLocationMarker";
 
 import LoadingUI from "./LoadingUI";
+import L from "leaflet";
 
 const MapView = () => {
   const { aircraftData, isLoading, error, fetchAircraftData } =
@@ -68,7 +68,16 @@ const MapView = () => {
               <Marker
                 key={idx}
                 position={[plane.latitude, plane.longitude]}
-                icon={aircraftIcon}
+                icon={L.divIcon({
+                  className: "aircraft-icon", // Custom class for the aircraft icon
+                  html: `<img src="${
+                    aircraftIcon.options.iconUrl
+                  }" width="12" height="12" style="transform: rotate(${
+                    plane.heading || 0
+                  }deg);" />`,
+                  iconSize: [10, 10], // Adjust the icon size
+                  iconAnchor: [12, 12], // Adjust the anchor point
+                })}
               >
                 <Popup>{plane.flight || `Aircraft: ${plane.icao24}`}</Popup>
               </Marker>
