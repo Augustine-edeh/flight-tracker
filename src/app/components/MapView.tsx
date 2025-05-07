@@ -1,5 +1,11 @@
 "use client";
 
+// NOTE: There is need for refactoring/optimization here
+// Needed for leaflet-rotatedmarker plugin to extend Marker
+// And I had to import the L instance much earlier before the leaflet-rotatedmarker plugin import because importing the plugin directly after the L import throws an error
+// This ensure L is lodead before importing the plugin which depends on it (L)
+import L from "leaflet";
+
 import {
   AttributionControl,
   MapContainer,
@@ -8,13 +14,14 @@ import {
   TileLayer,
   ZoomControl,
 } from "react-leaflet";
-import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Custom aircraft icon
-import useAircraftStore from "../stores/aircraftStore"; // Zustand store
+import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Assuming you have a custom icon for the aircraft
+
+import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
 import { useEffect, useState } from "react";
 import UserLocationMarker from "./UserLocationMarker";
 
 import LoadingUI from "./LoadingUI";
-import L from "leaflet";
+import "leaflet-rotatedmarker";
 
 const MapView = () => {
   const { aircraftData, isLoading, error, fetchAircraftData } =
@@ -61,23 +68,16 @@ const MapView = () => {
 
         <UserLocationMarker />
 
-        {aircraftData.map(
+        {aircraftData.slice(0, 10).map(
           (plane, idx) =>
             plane.latitude &&
             plane.longitude && (
               <Marker
                 key={idx}
                 position={[plane.latitude, plane.longitude]}
-                icon={L.divIcon({
-                  className: "aircraft-icon", // Custom class for the aircraft icon
-                  html: `<img src="${
-                    aircraftIcon.options.iconUrl
-                  }" width="12" height="12" style="transform: rotate(${
-                    plane.heading || 0
-                  }deg);" />`,
-                  iconSize: [10, 10], // Adjust the icon size
-                  iconAnchor: [12, 12], // Adjust the anchor point
-                })}
+                icon={aircraftIcon}
+                rotationAngle={plane.heading || 0}
+                rotationOrigin="center"
               >
                 <Popup>{plane.flight || `Aircraft: ${plane.icao24}`}</Popup>
               </Marker>
