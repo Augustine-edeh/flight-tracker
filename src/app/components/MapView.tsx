@@ -19,9 +19,9 @@ import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Assuming you have a cust
 import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
 import { useEffect, useState } from "react";
 import UserLocationMarker from "./UserLocationMarker";
-
-import LoadingUI from "./LoadingUI";
+import MapLoadingOverlay from "./MapLoadingOverlay";
 import "leaflet-rotatedmarker";
+import LoadingUI from "./LoadingUI";
 
 const MapView = () => {
   const { aircraftData, isLoading, error, fetchAircraftData } =
@@ -43,16 +43,18 @@ const MapView = () => {
     }
   }, [aircraftData]);
 
-  if (isLoading) {
-    return <LoadingUI />;
-  }
-
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="grid place-items-center h-full w-full bg-red-500 text-white">
+        <p>Error: {error}</p>
+      </div>
+    );
   }
 
   return (
-    <div className="h-full w-full border-4 border-blue-500">
+    <div className="relative h-full w-full border-4 border-blue-500">
+      {isLoading && <MapLoadingOverlay />}
+
       <MapContainer
         center={center}
         zoom={5}

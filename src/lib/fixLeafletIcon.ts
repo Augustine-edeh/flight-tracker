@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
 
 // Aircraft icon
 export const aircraftIcon = L.icon({
-  iconUrl: "/plane-icon-1.svg", // Ensure this path is correct and the file exists
+  iconUrl: "/air_craft.svg", // Ensure this path is correct and the file exists
   iconSize: [12, 12],
   iconAnchor: [16, 16],
 });
