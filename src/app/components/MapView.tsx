@@ -14,14 +14,13 @@ import {
   TileLayer,
   ZoomControl,
 } from "react-leaflet";
-import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Assuming you have a custom icon for the aircraft
+import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Import custom icon for aircrafts
 
 import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
 import { useEffect, useState } from "react";
 import UserLocationMarker from "./UserLocationMarker";
 import MapLoadingOverlay from "./MapLoadingOverlay";
 import "leaflet-rotatedmarker";
-import LoadingUI from "./LoadingUI";
 
 const MapView = () => {
   const { aircraftData, isLoading, error, fetchAircraftData } =
