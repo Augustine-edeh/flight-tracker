@@ -6,6 +6,9 @@
 // This ensure L is lodead before importing the plugin which depends on it (L)
 import L from "leaflet";
 
+// Dummy reference to avoid ESLint error for unused import
+void L;
+
 import {
   AttributionControl,
   MapContainer,
