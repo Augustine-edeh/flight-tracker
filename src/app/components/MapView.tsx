@@ -17,7 +17,7 @@ import {
   TileLayer,
   ZoomControl,
 } from "react-leaflet";
-import { aircraftIcon } from "@/lib/fixLeafletIcon"; // Import custom icon for aircrafts
+import { aircraftIcon, airportIcon } from "@/lib/fixLeafletIcon"; // Import custom icon for aircrafts
 
 import useAircraftStore from "../stores/aircraftStore"; // Import the Zustand store
 import { useEffect, useState } from "react";
@@ -26,14 +26,21 @@ import MapLoadingOverlay from "./MapLoadingOverlay";
 import "leaflet-rotatedmarker";
 
 const MapView = () => {
-  const { aircraftData, isLoading, error, fetchAircraftData } =
-    useAircraftStore();
+  const {
+    aircraftData,
+    isLoading,
+    error,
+    airports,
+    fetchAirports,
+    fetchAircraftData,
+  } = useAircraftStore();
 
   const [center, setCenter] = useState<[number, number]>([51.47, -0.4543]); // Heathrow Airport
 
   useEffect(() => {
+    fetchAirports(); // Fetch airports
     fetchAircraftData(); // Fetch aircraft data
-  }, [fetchAircraftData]);
+  }, [fetchAirports, fetchAircraftData]);
 
   useEffect(() => {
     if (aircraftData.length > 0) {
@@ -72,12 +79,32 @@ const MapView = () => {
 
         <UserLocationMarker />
 
+        {/* NOTE: Consider using useMemo hook to memoize derived datas (`airports` & `aircraftData`) */}
+        {/* Render airport markers */}
+        {airports.slice(0, 10).map((airport, idx) => (
+          <Marker
+            key={`airport-${idx}`}
+            position={[airport.latitude_deg, airport.longitude_deg]}
+            icon={airportIcon}
+          >
+            <Popup>
+              <div>
+                <strong>{airport.name}</strong>
+                <br />
+                {airport.municipality}, {airport.iso_country}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
+        {/* Render aircraft markers */}
+        {/* NOTE: add implementation show only airbone aircrafts */}
         {aircraftData.slice(0, 10).map(
           (plane, idx) =>
             plane.latitude &&
             plane.longitude && (
               <Marker
-                key={idx}
+                key={`aircraft-${idx}`}
                 position={[plane.latitude, plane.longitude]}
                 icon={aircraftIcon}
                 rotationAngle={plane.heading || 0}

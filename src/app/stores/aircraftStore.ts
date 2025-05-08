@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { AirportType } from "@/app/types/airport";
 import axios from "axios";
 
 type StateVector = [
@@ -31,16 +32,41 @@ interface MappedDataType {
 }
 
 interface AircraftStoreState {
+  airports: AirportType[];
   aircraftData: MappedDataType[];
   isLoading: boolean;
   error: string | null;
+  fetchAirports: () => Promise<void>;
   fetchAircraftData: () => Promise<void>;
 }
 
 const useAircraftStore = create<AircraftStoreState>((set) => ({
+  airports: [],
   aircraftData: [],
   isLoading: false,
   error: null,
+  fetchAirports: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.get("http://localhost:3000/api/airports");
+
+      const airports: AirportType[] = response.data.map(
+        (airport: AirportType) => ({
+          ...airport,
+          id: airport.id || 0, // Ensure id is always present
+        })
+      );
+
+      set({ airports });
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "An unknown error occurred.";
+      set({ error: message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
   fetchAircraftData: async () => {
     set({ isLoading: true, error: null });
 
