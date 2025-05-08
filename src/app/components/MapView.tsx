@@ -79,24 +79,32 @@ const MapView = () => {
 
         <UserLocationMarker />
 
+        {/* NOTE: Consider using useMemo hook to memoize derived datas (`airports` & `aircraftData`) */}
         {/* Render airport markers */}
         {airports.slice(0, 10).map((airport, idx) => (
           <Marker
-            key={idx}
+            key={`airport-${idx}`}
             position={[airport.latitude_deg, airport.longitude_deg]}
             icon={airportIcon}
           >
-            <Popup></Popup>
+            <Popup>
+              <div>
+                <strong>{airport.name}</strong>
+                <br />
+                {airport.municipality}, {airport.iso_country}
+              </div>
+            </Popup>
           </Marker>
         ))}
 
         {/* Render aircraft markers */}
+        {/* NOTE: add implementation show only airbone aircrafts */}
         {aircraftData.slice(0, 10).map(
           (plane, idx) =>
             plane.latitude &&
             plane.longitude && (
               <Marker
-                key={idx}
+                key={`aircraft-${idx}`}
                 position={[plane.latitude, plane.longitude]}
                 icon={aircraftIcon}
                 rotationAngle={plane.heading || 0}
