@@ -14,6 +14,7 @@ import {
   MapContainer,
   Marker,
   Popup,
+  Tooltip,
   TileLayer,
   ZoomControl,
 } from "react-leaflet";
@@ -87,6 +88,12 @@ const MapView = () => {
             position={[airport.latitude_deg, airport.longitude_deg]}
             icon={airportIcon}
           >
+            <Tooltip direction="top" offset={[0, -12]}>
+              <div>
+                <strong>{airport.name}</strong>
+              </div>
+            </Tooltip>
+
             <Popup>
               <div>
                 <strong>{airport.name}</strong>
@@ -110,7 +117,46 @@ const MapView = () => {
                 rotationAngle={plane.heading || 0}
                 rotationOrigin="center"
               >
-                <Popup>{plane.flight || `Aircraft: ${plane.icao24}`}</Popup>
+                <Tooltip direction="top" offset={[-10, -15]}>
+                  {plane.flight || `Aircraft: ${plane.icao24}`}
+                </Tooltip>
+
+                <Popup offset={[-10, -8]}>
+                  <div className="space-y-1 text-sm">
+                    <div>
+                      <strong>Flight:</strong> {plane.flight || "N/A"}
+                    </div>
+                    <div>
+                      <strong>ICAO24:</strong> {plane.icao24}
+                    </div>
+                    <div>
+                      <strong>Country:</strong> {plane.country || "N/A"}
+                      {/* <img
+                        src={`https://flagcdn.com/24x18/us.png`}
+                        alt={plane.country}
+                        className="inline w-5 h-auto rounded-sm"
+                      /> */}
+                    </div>
+                    <div>
+                      <strong>Altitude:</strong>{" "}
+                      {plane.altitude
+                        ? `${Math.round(plane.altitude)} m`
+                        : "N/A"}
+                    </div>
+                    <div>
+                      <strong>Speed:</strong>{" "}
+                      {plane.speed
+                        ? `${Math.round(plane.speed * 3.6)} km/h`
+                        : "N/A"}
+                    </div>
+                    <div>
+                      <strong>Heading:</strong>{" "}
+                      {plane.heading !== null && plane.heading !== undefined
+                        ? `${Math.round(plane.heading)}°`
+                        : "N/A"}
+                    </div>
+                  </div>
+                </Popup>
               </Marker>
             )
         )}
