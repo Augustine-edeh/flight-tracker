@@ -27,7 +27,7 @@ const AirportMarkers = ({ airports }: { airports: Airport[] }) => {
             </div>
           </Tooltip>
 
-          <Popup>
+          <Popup offset={[0, -4]}>
             <div>
               <strong>{airport.name}</strong>
               <br />
