@@ -15,6 +15,7 @@ const AirportMarkers = ({ airports }: { airports: Airport[] }) => {
   return (
     <>
       {/* NOTE: Consider using useMemo hook to memoize derived datas (`airports` & `aircraftData`) */}
+      {/* TODO: Filter out Heliports in future updates */}
       {airports.slice(0, 10).map((airport, idx) => (
         <Marker
           key={`airport-${idx}`}
