@@ -20,11 +20,11 @@ const AircraftMarker = ({ plane }: { plane: Aircraft }) => {
 
   const eventHandlers = {
     mouseover: () => {
-      // change icon to hover icon
+      // change icon to hover-aircraft icon
       markerRef.current?.setIcon(hoverAircraftIcon);
     },
     mouseout: () => {
-      // change icon back to default
+      // change icon back to default-aircraft icon
       markerRef.current?.setIcon(defaultAircraftIcon);
     },
   };
