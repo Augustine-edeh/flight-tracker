@@ -11,16 +11,23 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "leaflet/dist/images/marker-shadow.png",
 });
 
-// Aircraft icon
-export const aircraftIcon = L.icon({
-  iconUrl: "/air_craft.svg", // Ensure this path is correct and the file exists
+// Aircraft icon (default)
+export const defaultAircraftIcon = L.icon({
+  iconUrl: "/air_craft_default.svg",
+  iconSize: [12, 12],
+  iconAnchor: [16, 16],
+});
+
+// Aircraft icon (on hover)
+export const hoverAircraftIcon = L.icon({
+  iconUrl: "/air_craft_hover.svg",
   iconSize: [12, 12],
   iconAnchor: [16, 16],
 });
 
 // Airport icon
 export const airportIcon = L.icon({
-  iconUrl: "/airport-icon.svg", // Add your airport icon in the public folder
+  iconUrl: "/airport-icon.svg",
   iconSize: [28, 28],
   iconAnchor: [14, 14],
 });
