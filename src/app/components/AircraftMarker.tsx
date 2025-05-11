@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { Marker, Popup, Tooltip } from "react-leaflet";
+import L from "leaflet";
 
 import { defaultAircraftIcon, hoverAircraftIcon } from "@/lib/fixLeafletIcon";
 
@@ -15,24 +16,24 @@ interface Aircraft {
 }
 
 const AircraftMarker = ({ plane }: { plane: Aircraft }) => {
-  const [aircraftIcon, setaircraftIcon] = useState(defaultAircraftIcon);
+  const markerRef = useRef<L.Marker>(null);
 
   const eventHandlers = {
     mouseover: () => {
       // change icon to hover icon
-      setaircraftIcon(hoverAircraftIcon);
+      markerRef.current?.setIcon(hoverAircraftIcon);
     },
     mouseout: () => {
       // change icon back to default
-      setaircraftIcon(defaultAircraftIcon);
+      markerRef.current?.setIcon(defaultAircraftIcon);
     },
   };
 
   return (
     <Marker
-      //   key={`aircraft-${idx}`}
+      ref={markerRef}
       position={[plane.latitude, plane.longitude]}
-      icon={aircraftIcon}
+      icon={defaultAircraftIcon}
       rotationAngle={plane.heading || 0}
       rotationOrigin="center"
       eventHandlers={eventHandlers}
