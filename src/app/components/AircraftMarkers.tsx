@@ -1,6 +1,11 @@
 "use client";
 
+import { useMemo, useRef } from "react";
+
 import AircraftMarker from "./AircraftMarker";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+
+import type { MarkerClusterGroup as LeafletMarkerClusterGroup } from "leaflet.markercluster";
 
 interface Aircraft {
   latitude: number;
@@ -14,11 +19,11 @@ interface Aircraft {
 }
 
 const AircraftMarkers = ({ aircraftData }: { aircraftData: Aircraft[] }) => {
-  return (
-    <>
-      {/* NOTE: Consider using useMemo hook to memoize derived datas (`airports` & `aircraftData`) */}
-      {/* NOTE: add implementation show only airbone aircrafts */}
-      {aircraftData
+  const clusterRef = useRef<LeafletMarkerClusterGroup | null>(null);
+
+  const markers = useMemo(
+    () =>
+      aircraftData
         .slice(0, 10)
         .map(
           (plane, idx) =>
@@ -26,9 +31,11 @@ const AircraftMarkers = ({ aircraftData }: { aircraftData: Aircraft[] }) => {
             plane.longitude && (
               <AircraftMarker key={`aircraft-${idx}`} plane={plane} />
             )
-        )}
-    </>
+        ),
+    [aircraftData]
   );
+
+  return <MarkerClusterGroup ref={clusterRef}>{markers}</MarkerClusterGroup>;
 };
 
 export default AircraftMarkers;
