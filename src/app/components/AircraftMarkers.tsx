@@ -1,11 +1,15 @@
 "use client";
 
+import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+
 import { useMemo, useRef } from "react";
 
 import AircraftMarker from "./AircraftMarker";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 
-import type { MarkerClusterGroup as LeafletMarkerClusterGroup } from "leaflet.markercluster";
+import L from "leaflet";
 
 interface Aircraft {
   latitude: number;
@@ -19,7 +23,7 @@ interface Aircraft {
 }
 
 const AircraftMarkers = ({ aircraftData }: { aircraftData: Aircraft[] }) => {
-  const clusterRef = useRef<LeafletMarkerClusterGroup | null>(null);
+  const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
   const markers = useMemo(
     () =>
