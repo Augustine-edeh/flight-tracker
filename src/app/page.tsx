@@ -17,12 +17,10 @@ const HomePage = () => {
 
   return (
     <main className="flex flex-col h-dvh w-full">
-      {/* {!error && ( */}
       <div className="absolut e flex justify-between top-0 left-0 right-0 z-[1000] bg-red-500 text-white px-4 py -2 shadow-md">
         {error && showError && (
           <>
-            {/* <p>Error fetching aircraft data.</p> */}
-            <p>Error: {error}</p>
+            <p className="text-sm font-medium truncate">⚠️ {error}</p>
             <button
               onClick={() => setShowError(false)}
               className="text-white font-bold cursor-pointer"
@@ -32,8 +30,6 @@ const HomePage = () => {
           </>
         )}
       </div>
-
-      {/* )} */}
 
       <div className="relative flex-1 h-full w-full">
         <Header />
