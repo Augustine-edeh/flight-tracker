@@ -12,9 +12,9 @@ const MapView = dynamic(() => import("./components/MapView"), {
 });
 
 const HomePage = () => {
-  const [showError, setShowError] = useState(true);
-
   const { error } = useAircraftStore();
+
+  const [showError, setShowError] = useState(true);
 
   const shouldShowBanner = error && showError;
 

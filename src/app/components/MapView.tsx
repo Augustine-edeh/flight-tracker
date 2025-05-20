@@ -51,25 +51,9 @@ const MapView = () => {
     }
   }, [aircraftData]);
 
-  // if (error) {
-  //   return (
-  //     <div className="grid place-items-center h-full w-full bg-red-500 text-white">
-  //       <p>Error: {error}</p>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="relative h-full w-full border-4 border-blue-500">
       {isLoading && <MapLoadingOverlay />}
-
-      {/* {error && ( */}
-
-      {/* <div className="absolute top-4 right-4 z-[1000] bg-red-500 text-white px-4 py-2 rounded shadow-md">
-        <p>Error: {error}</p>
-      </div> */}
-
-      {/*  )} */}
 
       <MapContainer
         center={center}
