@@ -28,7 +28,7 @@ const MapView = () => {
   const {
     aircraftData,
     isLoading,
-    error,
+    // error,
     airports,
     fetchAirports,
     fetchAircraftData,
@@ -50,14 +50,6 @@ const MapView = () => {
       }
     }
   }, [aircraftData]);
-
-  if (error) {
-    return (
-      <div className="grid place-items-center h-full w-full bg-red-500 text-white">
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
 
   return (
     <div className="relative h-full w-full border-4 border-blue-500">
