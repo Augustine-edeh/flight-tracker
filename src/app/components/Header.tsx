@@ -61,24 +61,20 @@ const Header = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-white text-black px-3 py-1 rounded-md w-full text-sm outline-1 outline-green-400"
           />
-
-          {/* ✕ Clear Icon */}
-          {searchTerm && (
-            <button
-              type="button"
-              onClick={() => setSearchTerm("")}
-              className="absolute right-3 text-gray-500 hover:text-black"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
         </form>
 
         <button
-          onClick={() => setShowSearch((prev) => !prev)}
+          onClick={() => {
+            setShowSearch((prev) => !prev);
+            // setSearchTerm(""); // clear input on close
+          }}
           className="text-white hover:text-gray-300 transition cursor-pointer"
         >
-          <Search className="size-5" />
+          {showSearch ? (
+            <X className="size-5" />
+          ) : (
+            <Search className="size-5" />
+          )}
         </button>
       </div>
     </header>
