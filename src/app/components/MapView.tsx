@@ -28,7 +28,6 @@ const MapView = () => {
   const {
     aircraftData,
     isLoading,
-    // error,
     airports,
     fetchAirports,
     fetchAircraftData,

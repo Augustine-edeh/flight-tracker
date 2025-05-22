@@ -1,8 +1,10 @@
 import { useRef } from "react";
-import { Marker, Popup, Tooltip } from "react-leaflet";
+import { Marker, Popup, Tooltip, Polyline } from "react-leaflet";
 import L from "leaflet";
 
 import { defaultAircraftIcon, hoverAircraftIcon } from "@/lib/fixLeafletIcon";
+import useSelectedFlightStore from "../stores/useSelectedFlightStore";
+import { fetchFlightTrack } from "../services/fetchFlightTrack";
 
 interface Aircraft {
   latitude: number;
@@ -18,6 +20,28 @@ interface Aircraft {
 const AircraftMarker = ({ plane }: { plane: Aircraft }) => {
   const markerRef = useRef<L.Marker>(null);
 
+  const { setFlight, setTrack, setLoading, setError, track } =
+    useSelectedFlightStore();
+
+  const handleClick = async () => {
+    console.log(plane.icao24);
+    try {
+      setFlight(plane.icao24);
+      setLoading(true);
+      setError(null);
+
+      const now = Math.floor(Date.now() / 1000);
+      // const track = await fetchFlightTrack(plane.icao24, now - 3600); // 1 hour history
+      const track = await fetchFlightTrack(plane.icao24, 0);
+      console.log(track);
+      setTrack(track);
+    } catch (error) {
+      setError("Unable to fetch flight path.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const eventHandlers = {
     mouseover: () => {
       // change icon to hover-aircraft icon
@@ -27,6 +51,7 @@ const AircraftMarker = ({ plane }: { plane: Aircraft }) => {
       // change icon back to default-aircraft icon
       markerRef.current?.setIcon(defaultAircraftIcon);
     },
+    click: handleClick,
   };
 
   return (
@@ -69,6 +94,11 @@ const AircraftMarker = ({ plane }: { plane: Aircraft }) => {
           </div>
         </div>
       </Popup>
+
+      {/* Show track if available */}
+      {track.length > 1 && (
+        <Polyline positions={track} color="purple" weight={3} opacity={0.7} />
+      )}
     </Marker>
   );
 };
